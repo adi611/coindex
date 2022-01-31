@@ -4,7 +4,7 @@ const KeyManager = require('../lib/KeyManager')
 const { isRequired } = require('../utils/validation')
 
 const key = {
-    async set(){
+    async set() {
         const keyManager = new KeyManager()
         const input = await inquirer.prompt([
             {
@@ -17,15 +17,28 @@ const key = {
 
         const key = keyManager.setKey(input.key)
 
-        if(key) {
+        if (key) {
             console.log('API Key Set'.blue);
         }
     },
-    show(){
-        console.log("Hello from show");
+    show() {
+        const keyManager = new KeyManager()
+
+        try {
+            const key = keyManager.getKey()
+            console.log('Current API Key: ', key.yellow);
+        } catch (error) {
+            console.error(error.message.red)
+        }
     },
-    remove(){
-        console.log("Hello from remove");
+    remove() {
+        const keyManager = new KeyManager()
+        try {
+            keyManager.deleteKey()
+            console.log('Key Removed '.blue);
+        } catch (error) {
+            console.error(error.message.red)
+        }
     }
 }
 
